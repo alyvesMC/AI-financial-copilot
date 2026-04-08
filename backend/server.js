@@ -711,6 +711,7 @@ if (process.env.NODE_ENV === 'production') {
 // API Fallback Guard
 // Any requests to /api that didn't match a route above should return 404 JSON, not HTML.
 app.all(/^\/api\/.*/, (req, res) => {
+    if (req.method === 'OPTIONS') return res.status(200).end();
     res.status(404).json({ error: 'API Endpoint Not Found or wrong HTTP Method' });
 });
 

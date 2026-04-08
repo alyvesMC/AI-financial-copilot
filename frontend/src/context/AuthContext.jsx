@@ -36,7 +36,9 @@ export const AuthProvider = ({ children }) => {
       setUser(res.data.user);
       return { success: true };
     } catch (err) {
-      return { success: false, msg: err.response?.data?.error || 'Login failed' };
+      const errorPayload = err.response?.data?.error;
+      const msg = typeof errorPayload === 'string' ? errorPayload : (errorPayload?.message || JSON.stringify(errorPayload) || 'Login failed');
+      return { success: false, msg };
     }
   };
 
@@ -47,7 +49,9 @@ export const AuthProvider = ({ children }) => {
       setUser(res.data.user);
       return { success: true };
     } catch (err) {
-      return { success: false, msg: err.response?.data?.error || 'Registration failed' };
+      const errorPayload = err.response?.data?.error;
+      const msg = typeof errorPayload === 'string' ? errorPayload : (errorPayload?.message || JSON.stringify(errorPayload) || 'Registration failed');
+      return { success: false, msg };
     }
   };
 

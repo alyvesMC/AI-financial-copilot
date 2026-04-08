@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+
+const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
 import { Settings as SettingsIcon, Moon, Sun, ShieldCheck } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { ThemeContext } from '../context/ThemeContext';
@@ -18,7 +20,7 @@ function Settings() {
     const sessionId = query.get('session_id');
 
     if (success && sessionId) {
-      axios.post('/api/stripe/verify-session', { session_id: sessionId })
+      axios.post(`${API}/stripe/verify-session`, { session_id: sessionId })
         .then(res => {
           if (res.data.success) {
              setSuccessMsg('Nova Pro Unlocked! Your algorithms are now active for the next month.');
@@ -40,7 +42,7 @@ function Settings() {
 
   const handleStripeCheckout = async () => {
     try {
-        const res = await axios.post('/api/stripe/create-checkout-session');
+        const res = await axios.post(`${API}/stripe/create-checkout-session`);
         if(res.data.url) {
             window.location.href = res.data.url;
         }

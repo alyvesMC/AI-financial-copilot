@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+
+const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
 import { Sparkles, TrendingUp, AlertTriangle, Clock, Target, Lightbulb } from 'lucide-react';
 import PremiumBlurGate from '../components/PremiumBlurGate';
 import { AuthContext } from '../context/AuthContext';
@@ -13,7 +15,7 @@ function Insights() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('/api/ai/insights')
+    axios.get(`${API}/ai/insights`)
       .then(res => {
         setData(res.data);
         setLoading(false);

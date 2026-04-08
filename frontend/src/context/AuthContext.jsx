@@ -1,6 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -13,7 +15,7 @@ export const AuthProvider = ({ children }) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       localStorage.setItem('token', token);
       
-      axios.get('/api/dashboard')
+      axios.get(`${API}/dashboard`)
         .then(res => {
           setUser(res.data.user);
           setLoading(false);
@@ -31,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const res = await axios.post('/api/auth/login', { email, password });
+      const res = await axios.post(`${API}/auth/login`, { email, password });
       setToken(res.data.token);
       setUser(res.data.user);
       return { success: true };
@@ -44,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     try {
-      const res = await axios.post('/api/auth/register', { name, email, password });
+      const res = await axios.post(`${API}/auth/register`, { name, email, password });
       setToken(res.data.token);
       setUser(res.data.user);
       return { success: true };
@@ -57,7 +59,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateCurrency = async (currency) => {
     try {
-      await axios.put('/api/users/currency', { currency });
+      await axios.put(`${API}/users/currency`, { currency });
       setUser({ ...user, currency });
       return { success: true };
     } catch (err) {

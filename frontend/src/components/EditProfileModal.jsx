@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
+
+const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
 import { X, User as UserIcon } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 
@@ -35,7 +37,7 @@ function EditProfileModal({ isOpen, onClose }) {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.put('/api/users/profile', formData, {
+      const res = await axios.put(`${API}/users/profile`, formData, {
         headers: { 'x-auth-token': token }
       });
       setSuccess('Profile successfully updated.');

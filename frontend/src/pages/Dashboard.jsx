@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+
+const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
 import { AreaChart, Area, BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { AlertCircle, Target, ArrowRight, Lightbulb, Bell, Download, PlusCircle, CreditCard } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -61,8 +63,8 @@ function Dashboard() {
 
   const fetchData = () => {
     Promise.all([
-      axios.get('/api/dashboard'),
-      axios.get('/api/ai/insights').catch(() => ({ data: { insights: ["You're spending 15% more on food this month than average."], recommendations: ["Consider cutting entertainment expenses by $30 to save more effectively."] } }))
+      axios.get(`${API}/dashboard`),
+      axios.get(`${API}/ai/insights`).catch(() => ({ data: { insights: ["You're spending 15% more on food this month than average."], recommendations: ["Consider cutting entertainment expenses by $30 to save more effectively."] } }))
     ])
       .then(([dashRes, aiRes]) => {
         setData({ ...dashRes.data, ai: aiRes.data });

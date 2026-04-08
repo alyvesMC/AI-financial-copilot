@@ -13,9 +13,8 @@ import { AuthProvider, AuthContext } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import axios from 'axios';
 
-// Cross-Platform Deployment Target
-const isLocal = import.meta.env.MODE === 'development';
-axios.defaults.baseURL = isLocal ? '' : (import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com');
+const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
+
 
 function ProtectedRoute({ children }) {
   const { token, loading } = useContext(AuthContext);

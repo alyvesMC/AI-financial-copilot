@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+
+const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
 import { Target } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { formatCurrency } from '../utils/formatCurrency';
@@ -9,7 +11,7 @@ function Goals() {
   const [goals, setGoals] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/goals')
+    axios.get(`${API}/goals`)
       .then(res => setGoals(res.data))
       .catch(err => {
         console.warn('Backend unavailable, falling back to local data', err);

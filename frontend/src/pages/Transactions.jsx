@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+
+const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
 import { List, Plus, Trash2, Edit2 } from 'lucide-react';
 import AddTransactionModal from '../components/AddTransactionModal';
 import { AuthContext } from '../context/AuthContext';
@@ -22,7 +24,7 @@ function Transactions() {
   };
 
   const fetchTransactions = () => {
-    axios.get('/api/transactions')
+    axios.get(`${API}/transactions`)
       .then(res => setTransactions(res.data))
       .catch(err => {
         console.warn('Backend unavailable, falling back to local data', err);
@@ -45,7 +47,7 @@ function Transactions() {
     setTransactions(prev => prev.filter(t => t._id !== id));
 
     try {
-      await axios.delete(`/api/transactions/${id}`);
+      await axios.delete(`${API}/transactions/${id}`);
     } catch (err) {
       console.warn('Backend delete sync failed, persisting locally for session', err);
     }

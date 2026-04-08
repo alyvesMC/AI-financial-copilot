@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+
+const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
 import { ShieldAlert, Activity } from 'lucide-react';
 import PremiumBlurGate from './PremiumBlurGate';
 import { AuthContext } from '../context/AuthContext';
@@ -10,7 +12,7 @@ export default function WarningWidget() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('/api/ai/widget/warning')
+    axios.get(`${API}/ai/widget/warning`)
       .then(res => {
         setData(res.data.content);
         setLoading(false);

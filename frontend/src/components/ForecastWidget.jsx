@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+
+const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
 import { Target, Activity } from 'lucide-react';
 import PremiumBlurGate from './PremiumBlurGate';
 import { AuthContext } from '../context/AuthContext';
@@ -10,7 +12,7 @@ export default function ForecastWidget() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('/api/ai/widget/forecast')
+    axios.get(`${API}/ai/widget/forecast`)
       .then(res => {
         setData(res.data.content);
         setLoading(false);

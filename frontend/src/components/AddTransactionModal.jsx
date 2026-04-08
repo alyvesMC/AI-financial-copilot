@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { createPortal } from 'react-dom';
 import axios from 'axios';
+
+const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
 import { X } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 
@@ -44,9 +46,9 @@ function AddTransactionModal({ isOpen, onClose, onSuccess, initialData = null })
     setIsSubmitting(true);
     try {
       if (initialData && initialData._id) {
-          await axios.put(`/api/transactions/${initialData._id}`, formData);
+          await axios.put(`${API}/transactions/${initialData._id}`, formData);
       } else {
-          await axios.post('/api/transactions', formData);
+          await axios.post(`${API}/transactions`, formData);
       }
       onSuccess(); // Re-fetch data
       onClose(); // Close modal

@@ -708,9 +708,15 @@ const path = require('path');
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/dist')));
     
-    app.get(/.*/, (req, res) => {
-        res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
-    });
+// API Fallback Guard
+// Any requests to /api that didn't match a route above should return 404 JSON, not HTML.
+app.all('/api/*', (req, res) => {
+    res.status(404).json({ error: 'API Endpoint Not Found or wrong HTTP Method' });
+});
+
+app.get(/.*/, (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+});
 }
 
 const PORT = process.env.PORT || 5000;

@@ -16,7 +16,7 @@ backend/node_modules/
 
 
 
-
+frontend/dist/
 backend/build/
 .env
 

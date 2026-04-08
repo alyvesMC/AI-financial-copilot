@@ -1,0 +1,12 @@
+{
+  "name": "ai-financial-coach-monolith",
+  "version": "1.0.0",
+  "description": "Monolithic full-stack React and Express app",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
+    "start": "cd backend && node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

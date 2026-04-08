@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await axios.post('/api/auth/login', { email, password });
       setToken(res.data.token);
+      setUser(res.data.user);
       return { success: true };
     } catch (err) {
       return { success: false, msg: err.response?.data?.error || 'Login failed' };
@@ -43,6 +44,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await axios.post('/api/auth/register', { name, email, password });
       setToken(res.data.token);
+      setUser(res.data.user);
       return { success: true };
     } catch (err) {
       return { success: false, msg: err.response?.data?.error || 'Registration failed' };

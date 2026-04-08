@@ -130,12 +130,12 @@ h1, h2, h3, h4, h5, h6 {
 /* Form Controls */
 .form-input {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 14px; /* Increased for mobile touch ergonomics */
   border-radius: var(--radius-sm);
   background: var(--bg-card);
   border: 1px solid var(--border-light);
   color: var(--text-main);
-  font-size: 0.95rem;
+  font-size: 1rem; /* Prevent iOS automatic zoom on focus by ensuring input is >= 16px */
   font-family: var(--font-family);
   transition: var(--transition);
 }
@@ -261,6 +261,12 @@ h1, h2, h3, h4, h5, h6 {
 /* Tables */
 .table-container {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth iOS swipe */
+  border-radius: var(--radius-sm);
+  /* Elegant gradient masking for indicating overflow exists */
+  mask-image: linear-gradient(to right, black 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 95%, transparent 100%);
+  padding-right: 8px; /* Give room for fading mask */
 }
 
 .data-table {
@@ -394,6 +400,35 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
+/* Base Mobile Utility Classes */
+.mobile-flex-col {
+  display: flex;
+}
+
+/* Universal Modal Overlay Adjustments */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px; /* Ensure space around modals on tight screens */
+}
+
+.premium-modal {
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  /* Prevent background scrolling bleed */
+  overscroll-behavior: contain;
+}
+
 @media (max-width: 768px) {
   /* Layout Grid Collapsing */
   .grid-2, .grid-3, .grid-half {
@@ -401,9 +436,20 @@ h1, h2, h3, h4, h5, h6 {
     gap: 16px;
   }
   
+  /* Apply column flexing exclusively upon mobile layouts */
+  .mobile-flex-col {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px;
+  }
+  
+  .mobile-flex-col > button {
+     width: 100%; /* Auto stretch buttons in col view */
+  }
+  
   /* Condense container footprints */
   .main-content {
-    padding: 20px 16px !important;
+    padding: 16px 12px !important;
     padding-bottom: 90px !important; /* Buffer for bottom nav */
   }
 
@@ -422,7 +468,9 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 0;
     left: 0;
     right: 0;
-    background: var(--bg-card);
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid var(--border-light);
     height: 64px;
     z-index: 1000;
@@ -441,23 +489,28 @@ h1, h2, h3, h4, h5, h6 {
   }
   
   .mobile-bottom-nav .nav-icon {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
   }
 
   .mobile-bottom-nav .nav-link.active .nav-icon {
     color: var(--accent-blue);
+    transform: translateY(-2px);
+    transition: transform 0.2s;
   }
 
   /* Typography Dynamic Resizing for Landing & Headers */
-  .hero-headline {
-    font-size: 2.5rem !important;
+  .hero-headline { font-size: 2.2rem !important; }
+  .hero-subheadline { font-size: 1rem !important; }
+  .section-headline { font-size: 1.8rem !important; }
+  
+  /* Modal Touch Sizing */
+  .premium-modal {
+    padding: 24px 20px !important;
   }
-  .hero-subheadline {
-    font-size: 1.05rem !important;
-  }
-  .section-headline {
-     font-size: 2rem !important;
+  
+  /* Relax Chart container bounds so they shrink nicely */
+  .recharts-responsive-container {
+     min-height: 280px !important; 
   }
 }
-

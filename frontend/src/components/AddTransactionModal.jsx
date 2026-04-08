@@ -72,17 +72,13 @@ function AddTransactionModal({ isOpen, onClose, onSuccess, initialData = null })
   };
 
   return createPortal(
-    <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(0, 0, 0, 0.8)',
-      backdropFilter: 'blur(4px)',
-      display: 'flex', justifyContent: 'center', alignItems: 'center',
-      zIndex: 1000
-    }}>
-      <div className="glass-card animate-fade-in" style={{ width: '100%', maxWidth: '500px', padding: '32px' }}>
-        <div className="flex-between mb-4">
-           {/* Modal internal DOM ... */}
-           <h2>{initialData ? 'Edit Transaction' : 'Add New Transaction'}</h2>
+    <div className="modal-overlay" onClick={onClose}>
+      <div 
+        className="glass-card animate-fade-in premium-modal" 
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex-between mb-6">
+           <h2 style={{ fontSize: '1.25rem' }}>{initialData ? 'Edit Transaction' : 'Add Transaction'}</h2>
            <button onClick={onClose} style={{background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer'}}>
              <X />
            </button>

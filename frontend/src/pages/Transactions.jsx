@@ -54,8 +54,8 @@ function Transactions() {
   };
 
   return (
-    <div className="animate-fade-in">
-      <div className="flex-between mb-8">
+    <div className="dashboard-wrapper">
+      <div className="flex-between mobile-flex-col mb-6">
         <div>
           <h1 className="mb-2 flex-center" style={{fontSize: '2rem'}}>Transactions</h1>
           <p className="text-muted">All your past activity.</p>

@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { createPortal } from 'react-dom';
 import axios from 'axios';
 
 const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
@@ -53,9 +54,12 @@ function EditProfileModal({ isOpen, onClose }) {
     setLoading(false);
   };
 
-  return (
-    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, padding: '20px' }}>
-      <div className="glass-card animate-fade-in" style={{ width: '100%', maxWidth: '500px', padding: '24px', background: 'var(--bg-card)' }}>
+  return createPortal(
+    <div className="modal-overlay" onClick={onClose}>
+      <div 
+        className="glass-card animate-fade-in premium-modal" 
+        onClick={e => e.stopPropagation()}
+      >
         
         <div className="flex-between mb-6">
           <div className="flex-center">
@@ -128,7 +132,8 @@ function EditProfileModal({ isOpen, onClose }) {
         </form>
 
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

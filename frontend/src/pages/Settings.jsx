@@ -54,11 +54,13 @@ function Settings() {
 
   return (
     <div className="animate-fade-in">
-      <div className="mb-8">
-        <h1 className="mb-2 flex-center" style={{fontSize: '2rem'}}>
-          <SettingsIcon size={28} /> Settings
-        </h1>
-        <p className="text-muted">Manage your account and preferences.</p>
+      <div className="flex-between mobile-flex-col mb-6">
+        <div>
+          <h1 className="hero-headline gradient-text" style={{ fontSize: '2.4rem', marginBottom: '8px' }}>
+            <SettingsIcon size={28} /> Settings
+          </h1>
+          <p className="text-muted">Manage your account and preferences.</p>
+        </div>
       </div>
       
       {successMsg && (

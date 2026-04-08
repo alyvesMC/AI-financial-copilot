@@ -367,7 +367,7 @@ function Dashboard() {
       </div>
 
       {/* 1. BALANCE (BIG NUMBER) */}
-      <div className="flex-between mb-6">
+      <div className="flex-between mobile-flex-col mb-6">
         <div>
           <p className="text-muted" style={{marginBottom: '4px', textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: '0.05em'}}>Total Balance</p>
           <h1 style={{fontSize: '3.5rem', lineHeight: 1, marginBottom: '12px'}}>{formatCurrency(data.user.balance, authUser?.currency)}</h1>

@@ -703,6 +703,130 @@ RULES:
     }
 });
 
+// AI SMART GOALS GENERATOR (PRO LEVEL FEATURE)
+app.post('/api/ai/goals/generate', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        const hasPremiumAccess = user.tier === 'pro';
+
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        const recentTx = await Transaction.find({ userId: user._id, date: { $gte: thirtyDaysAgo } });
+
+        const mIncome = recentTx.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+        const mExpense = recentTx.filter(t => t.type === 'expense').reduce((sum, t) => sum + Math.abs(t.amount), 0);
+        
+        // Spending Breakdown String
+        const categories = {};
+        recentTx.filter(t => t.type === 'expense').forEach(t => {
+            categories[t.category] = (categories[t.category] || 0) + Math.abs(t.amount);
+        });
+        const catString = Object.entries(categories).map(([k,v]) => `${k}: $${v}`).join(', ');
+
+        const proInstructions = hasPremiumAccess ? `
+OPTIONAL (PRO VERSION UPGRADE)
+Make it even stronger: Also include optimization strategies to reach the goal faster and estimate how much money can be saved by following the plan.
+
+EXTENDED OUTPUT SCHEMA FOR PRO:
+{
+  "goals": [
+    {
+      "title": "string",
+      "description": "string",
+      "targetAmount": number,
+      "monthlyContribution": number,
+      "estimatedMonths": number,
+      "difficulty": "easy | medium | hard",
+      "priority": "high | medium | low",
+      "steps": ["string", "string"],
+      "optimizationStrategy": "string",
+      "successProbability": number (0-100),
+      "estimatedSavings": number
+    }
+  ]
+}` : `
+OUTPUT (STRICT JSON):
+{
+  "goals": [
+    {
+      "title": "string",
+      "description": "string",
+      "targetAmount": number,
+      "monthlyContribution": number,
+      "estimatedMonths": number,
+      "difficulty": "easy | medium | hard",
+      "priority": "high | medium | low",
+      "steps": ["string", "string"]
+    }
+  ]
+}
+`;
+
+        const promptStr = `You are a professional financial planning AI inside a fintech application.
+
+Your role is to create realistic, personalized financial goals based on the user's financial situation.
+
+USER DATA:
+- Monthly Income: ${mIncome}
+- Total Expenses: ${mExpense}
+- Current Balance: ${user.balance}
+- Spending Breakdown: ${catString || 'None visible'}
+
+TASK:
+1. IDENTIFY POSSIBLE GOALS
+Generate 2-3 realistic financial goals (e.g. Emergency fund, Saving for purchase, Reducing expenses).
+2. PRIORITIZE GOALS based on urgency.
+3. CREATE A PLAN FOR EACH GOAL
+4. PROVIDE ACTIONABLE STEPS (2-3 clear steps)
+
+IMPORTANT:
+- Goals must be realistic based on income and expenses
+- Avoid generic advice, use clear and practical numbers
+- Use EXACT JSON Keys defined below. DO NOT DEVIATE.
+
+${proInstructions}`;
+
+        const chatCompletion = await groqClient.chat.completions.create({
+            messages: [{ role: 'system', content: promptStr }],
+            model: 'llama-3.3-70b-versatile',
+            temperature: 0.2,
+            response_format: { type: "json_object" }
+        });
+        
+        const parsedContent = JSON.parse(chatCompletion.choices[0]?.message?.content);
+        
+        // 1. Wipe previous AI generated goals to keep roadmap clean
+        await Goal.deleteMany({ userId: user._id, isAIGenerated: true });
+        
+        // 2. Insert new goals mathematically derived.
+        if (parsedContent && parsedContent.goals && Array.isArray(parsedContent.goals)) {
+            const mappedGoals = parsedContent.goals.map(g => ({
+                userId: user._id,
+                title: g.title || 'Smart Goal',
+                description: g.description,
+                targetAmount: g.targetAmount || 0,
+                currentAmount: 0,
+                monthlyContribution: g.monthlyContribution || 0,
+                estimatedMonths: g.estimatedMonths || 0,
+                difficulty: g.difficulty || 'medium',
+                priority: g.priority || 'medium',
+                steps: g.steps || [],
+                isAIGenerated: true,
+                optimizationStrategy: g.optimizationStrategy,
+                successProbability: g.successProbability,
+                estimatedSavings: g.estimatedSavings
+            }));
+            
+            await Goal.insertMany(mappedGoals);
+        }
+        
+        res.json({ success: true, message: 'AI Goals generated and saved.' });
+    } catch (err) {
+        console.error('Groq Goals Generator Error:', err);
+        res.status(500).json({ error: 'Failed to generate financial goals.' });
+    }
+});
+
 // Frontend Deployment Pipeline
 const path = require('path');
 if (process.env.NODE_ENV === 'production') {

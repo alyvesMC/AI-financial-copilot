@@ -22,9 +22,6 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
 }));
 
-// Fallback OPTIONS handler just in case cors() misses it on custom headers
-app.options('/*', cors());
-
 // Webhook must be raw
 app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (req, res) => {
     if (!stripe) return res.status(400).send('Stripe unconfigured.');

@@ -15,7 +15,15 @@ const Transaction = require('./models/Transaction');
 const Goal = require('./models/Goal');
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
+}));
+
+// Fallback OPTIONS handler just in case cors() misses it on custom headers
+app.options('*', cors());
 
 // Webhook must be raw
 app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (req, res) => {
@@ -835,7 +843,13 @@ if (process.env.NODE_ENV === 'production') {
 // API Fallback Guard
 // Any requests to /api that didn't match a route above should return 404 JSON, not HTML.
 app.all(/^\/api\/.*/, (req, res) => {
-    if (req.method === 'OPTIONS') return res.status(200).end();
+    // Rely on CORS middleware from top of file.
+    if (req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-auth-token');
+        return res.status(200).send();
+    }
     res.status(404).json({ error: 'API Endpoint Not Found or wrong HTTP Method' });
 });
 

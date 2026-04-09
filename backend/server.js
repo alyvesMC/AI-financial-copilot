@@ -23,7 +23,7 @@ app.use(cors({
 }));
 
 // Fallback OPTIONS handler just in case cors() misses it on custom headers
-app.options('*', cors());
+app.options('/*', cors());
 
 // Webhook must be raw
 app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (req, res) => {

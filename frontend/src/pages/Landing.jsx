@@ -25,8 +25,8 @@ function Landing() {
             <h2 style={{ fontSize: '1.25rem', letterSpacing: '-0.03em' }}>Finance Autopilot</h2>
           </div>
           <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-            <a href="#features" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'var(--transition)' }}>Features</a>
-            <a href="#pricing" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'var(--transition)' }}>Pricing</a>
+            <a href="#features" className="hide-on-mobile" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'var(--transition)' }}>Features</a>
+            <a href="#pricing" className="hide-on-mobile" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'var(--transition)' }}>Pricing</a>
             <Link to="/login" style={{ color: 'var(--text-main)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500 }}>Sign In</Link>
             <Link to="/register" className="btn-primary" style={{ padding: '8px 16px', background: 'var(--text-main)', color: 'var(--bg-dark)' }}>Start Free Trial</Link>
           </div>
@@ -48,11 +48,11 @@ function Landing() {
           <p className="hero-subheadline" style={{ fontSize: '1.25rem', color: 'var(--text-muted)', marginBottom: '40px', maxWidth: '600px', margin: '0 auto 40px auto', lineHeight: '1.6' }}>
             Every day of blind spending puts you at financial risk. The first AI system that automatically tracks your cash flow, predicts exactly when you'll hit zero, and intervenes before it happens.
           </p>
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+          <div className="mobile-flex-col" style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
             <Link to="/register" className="btn-primary" style={{ fontSize: '1.1rem', padding: '12px 24px', background: 'var(--text-main)', color: 'var(--bg-dark)' }}>Start Free Trial <ArrowRight size={18} style={{marginLeft: '8px'}} /></Link>
             <a href="#how-it-works" className="btn-secondary" style={{ fontSize: '1.1rem', padding: '12px 24px' }}>See how it works</a>
           </div>
-          <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'center', gap: '24px', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+          <div className="mobile-flex-col" style={{ marginTop: '32px', display: 'flex', justifyContent: 'center', gap: '24px', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
             <span className="flex-center"><ShieldCheck size={16} /> Bank-level security</span>
             <span className="flex-center"><Zap size={16} /> Real-time sync</span>
             <span className="flex-center"><Target size={16} /> 14-day free trial</span>
@@ -60,7 +60,7 @@ function Landing() {
         </div>
 
         {/* Hero Visual Mockup */}
-        <div style={{ position: 'relative', zIndex: 1, marginTop: '80px', width: '100%', maxWidth: '1000px', padding: '0 24px' }}>
+        <div className="hide-on-mobile" style={{ position: 'relative', zIndex: 1, marginTop: '80px', width: '100%', maxWidth: '1000px', padding: '0 24px' }}>
            <div style={{ background: 'var(--bg-card)', borderRadius: '16px', border: '1px solid var(--border-light)', boxShadow: '0 24px 64px rgba(0,0,0,0.2)', overflow: 'hidden', padding: '8px' }}>
               <div style={{ width: '100%', height: '500px', background: 'var(--bg-dark)', borderRadius: '12px', border: '1px solid var(--border-light)', position: 'relative', overflow: 'hidden' }}>
                  {/* Mini Mock Dashboard */}
@@ -136,7 +136,7 @@ function Landing() {
                      <li className="flex-center" style={{ color: 'var(--text-main)' }}><CheckCircle2 size={18} color="var(--success)" /> Contextual saving strategies</li>
                   </ul>
                </div>
-               <div style={{ background: 'var(--bg-card)', height: '400px', borderRadius: '16px', border: '1px solid var(--border-light)', padding: '32px', display: 'flex', flexDirection: 'column', gap: '16px', boxShadow: '0 12px 32px rgba(0,0,0,0.1)' }}>
+               <div style={{ background: 'var(--bg-card)', minHeight: '400px', height: 'auto', borderRadius: '16px', border: '1px solid var(--border-light)', padding: '32px', display: 'flex', flexDirection: 'column', gap: '16px', boxShadow: '0 12px 32px rgba(0,0,0,0.1)' }}>
                    {/* Mock UI */}
                    <div style={{ padding: '16px', borderLeft: '4px solid var(--danger)', background: 'var(--bg-dark)', borderRadius: '8px' }}>
                       <h4 style={{ marginBottom: '4px', fontSize: '1rem', color: 'var(--danger)' }}>CRITICAL: Overdraft Risk</h4>
@@ -150,9 +150,9 @@ function Landing() {
             </div>
 
             <div className="grid-half" style={{ gap: '64px', alignItems: 'center' }}>
-               <div style={{ background: 'var(--bg-card)', height: '400px', borderRadius: '16px', border: '1px solid var(--border-light)', position: 'relative', overflow: 'hidden', boxShadow: '0 12px 32px rgba(0,0,0,0.1)' }}>
-                  <div style={{ position: 'absolute', bottom: '-20px', left: 0, width: '100%', height: '240px', borderTop: '2px dashed var(--danger)', opacity: 0.5 }}></div>
-                  <div style={{ position: 'absolute', bottom: '40px', left: '10%', right: '10%', height: '120px', background: 'linear-gradient(90deg, var(--accent-blue), transparent)', opacity: 0.1, borderRadius: '8px' }}></div>
+               <div style={{ background: 'var(--bg-card)', minHeight: '400px', height: 'auto', borderRadius: '16px', border: '1px solid var(--border-light)', position: 'relative', overflow: 'hidden', boxShadow: '0 12px 32px rgba(0,0,0,0.1)' }}>
+                  <div className="hide-on-mobile" style={{ position: 'absolute', bottom: '-20px', left: 0, width: '100%', height: '240px', borderTop: '2px dashed var(--danger)', opacity: 0.5 }}></div>
+                  <div className="hide-on-mobile" style={{ position: 'absolute', bottom: '40px', left: '10%', right: '10%', height: '120px', background: 'linear-gradient(90deg, var(--accent-blue), transparent)', opacity: 0.1, borderRadius: '8px' }}></div>
                   <div style={{ position: 'absolute', top: '40px', right: '40px', padding: '12px 24px', background: 'var(--danger)', color: '#fff', borderRadius: '8px', fontWeight: 600 }}>Burn Zero: 14 Days</div>
                </div>
                <div>
@@ -176,7 +176,7 @@ function Landing() {
          <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
             <h2 className="section-headline" style={{ fontSize: '2.5rem', marginBottom: '80px', letterSpacing: '-0.03em' }}>Three steps to financial clarity.</h2>
             <div className="grid-3" style={{ position: 'relative' }}>
-               <div style={{ position: 'absolute', top: '24px', left: '10%', right: '10%', height: '1px', background: 'var(--border-light)', zIndex: 0 }}></div>
+               <div className="hide-on-mobile" style={{ position: 'absolute', top: '24px', left: '10%', right: '10%', height: '1px', background: 'var(--border-light)', zIndex: 0 }}></div>
                
                <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'var(--bg-dark)', border: '1px solid var(--border-light)', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '24px' }}>1</div>
@@ -251,7 +251,7 @@ function Landing() {
 
       {/* ----------------- FOOTER ----------------- */}
       <footer style={{ padding: '64px 24px', background: 'var(--bg-card)', borderTop: '1px solid var(--border-light)' }}>
-         <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+         <div className="mobile-flex-col" style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className="flex-center" style={{ color: 'var(--text-muted)' }}>
                <BrainCircuit size={20} />
                <span style={{ fontWeight: 600 }}>Nova Coach SaaS</span>

@@ -405,6 +405,10 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
 }
 
+.hide-on-mobile { display: block; }
+.show-on-mobile { display: none; }
+.mobile-text-center { text-align: inherit; }
+
 /* Universal Modal Overlay Adjustments */
 .modal-overlay {
   position: fixed;
@@ -446,6 +450,11 @@ h1, h2, h3, h4, h5, h6 {
   .mobile-flex-col > button {
      width: 100%; /* Auto stretch buttons in col view */
   }
+
+  /* Visibility Utilities */
+  .hide-on-mobile { display: none !important; }
+  .show-on-mobile { display: block !important; }
+  .mobile-text-center { text-align: center !important; justify-content: center !important; }
   
   /* Condense container footprints */
   .main-content {

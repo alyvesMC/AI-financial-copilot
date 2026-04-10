@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const API = import.meta.env.VITE_API_URL || 'https://ai-financial-copilot-ckt8.onrender.com/api';
 import { AreaChart, Area, BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
-import { AlertCircle, Target, ArrowRight, Lightbulb, Bell, Download, PlusCircle, CreditCard } from 'lucide-react';
+import { AlertCircle, Target, ArrowRight, Lightbulb, Bell, Download, PlusCircle, CreditCard, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AddTransactionModal from '../components/AddTransactionModal';
 import AddWidgetModal from '../components/AddWidgetModal';
@@ -18,12 +18,13 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates } from '@dnd-ki
 import SortableWidget from '../components/SortableWidget';
 
 function Dashboard() {
-  const { user: authUser, hasPremiumAccess } = useContext(AuthContext);
+  const { user: authUser, hasPremiumAccess, logout } = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWidgetModalOpen, setIsWidgetModalOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   
   // Widget State
   const [widgets, setWidgets] = useState(() => {
@@ -360,8 +361,25 @@ function Dashboard() {
             )}
           </div>
           
-          <div className="flex-center flex-col" style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--accent-blue)', color: '#fff', fontWeight: 600, fontSize: '0.9rem', justifyContent: 'center', marginLeft: '8px' }}>
-            {initials}
+          <div style={{ position: 'relative', marginLeft: '8px' }}>
+            <div 
+              className="flex-center flex-col" 
+              style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--accent-blue)', color: '#fff', fontWeight: 600, fontSize: '0.9rem', justifyContent: 'center', cursor: 'pointer' }}
+              onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+            >
+              {initials}
+            </div>
+
+            {isProfileMenuOpen && (
+              <div className="glass-card animate-fade-in" style={{ position: 'absolute', top: '100%', right: 0, marginTop: '16px', width: '220px', padding: '16px', zIndex: 110, boxShadow: '0 12px 32px rgba(0,0,0,0.5)', border: '1px solid var(--border-light)' }}>
+                <p style={{ fontWeight: 600, fontSize: '0.95rem', marginBottom: '4px' }}>{data.user.name}</p>
+                <p className="text-muted" style={{ fontSize: '0.8rem', marginBottom: '16px', wordBreak: 'break-all' }}>{authUser?.email}</p>
+                <div style={{ height: '1px', background: 'var(--border-light)', margin: '12px 0' }}></div>
+                <button onClick={logout} className="nav-link flex-center" style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--danger)', padding: '8px 0', justifyContent: 'flex-start', gap: '8px' }}>
+                  <LogOut size={18} /> <span style={{ fontWeight: 500 }}>Logout</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
